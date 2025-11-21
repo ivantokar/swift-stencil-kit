@@ -25,6 +25,11 @@ import MageStencilKit
 - 🧱 `pascalcase` / `pascalCase` / `PascalCase`: `user-profile-id` → `UserProfileId`
 - 🐍 `snakecase` / `snakeCase` / `snake_case`: `UserProfileId` → `user_profile_id`
 - 🧩 `kebabcase` / `kebabCase` / `kebab-case`: `User Profile ID` → `user-profile-id`
+- 🔊 `constantcase` / `CONSTANT_CASE`: `myAppName` → `MY_APP_NAME`
+- 📦 `dotcase` / `dotCase`: `myAppName` → `my.app.name`
+- 📁 `pathcase` / `pathCase`: `myAppName` → `my/app/name`
+- 💬 `sentencecase` / `sentenceCase`: `myAppName` → `My app name`
+- 📋 `headercase` / `headerCase`: `myAppName` → `My-App-Name`
 
 ### String Transformation
 - 🔠 `uppercase`: `hello` → `HELLO`
@@ -39,18 +44,22 @@ import MageStencilKit
 
 ### Utilities
 - 🔎 `isAcronym`: `HTML` → `true`, `Http` → `false`
+- 📏 `count`: Returns length of array or string
+- ❓ `isEmpty` / `isNotEmpty`: Boolean checks for arrays/strings
+- ⬅️ `first` / `last`: Get first/last element of array or string
+- 🔗 `join`: Join array with separator: `{{ items|join:", " }}`
+- ✂️ `split`: Split string into array: `{{ value|split:"-" }}`
 
 ---
 
 ## 🔁 Input to Output Case Conversions
 
-| Input           | `camelcase`     | `pascalcase`    | `snakecase`       | `kebabcase`       |
-| --------------- | --------------- | --------------- | ----------------- | ----------------- |
-| `UserProfile`   | `userProfile`   | `UserProfile`   | `user_profile`    | `user-profile`    |
-| `user_profile`  | `userProfile`   | `UserProfile`   | `user_profile`    | `user-profile`    |
-| `user-profile`  | `userProfile`   | `UserProfile`   | `user_profile`    | `user-profile`    |
-| `user profile`  | `userProfile`   | `UserProfile`   | `user_profile`    | `user-profile`    |
-| `USERProfileID` | `userProfileId` | `UserProfileId` | `user_profile_id` | `user-profile-id` |
+| Input           | `camelcase`     | `pascalcase`    | `snakecase`       | `kebabcase`       | `constantcase`      | `dotcase`        | `pathcase`        | `sentencecase`     | `headercase`      |
+| --------------- | --------------- | --------------- | ----------------- | ----------------- | ------------------- | ---------------- | ----------------- | ------------------ | ----------------- |
+| `UserProfile`   | `userProfile`   | `UserProfile`   | `user_profile`    | `user-profile`    | `USER_PROFILE`      | `user.profile`   | `user/profile`    | `User profile`     | `User-Profile`    |
+| `user_profile`  | `userProfile`   | `UserProfile`   | `user_profile`    | `user-profile`    | `USER_PROFILE`      | `user.profile`   | `user/profile`    | `User profile`     | `User-Profile`    |
+| `user-profile`  | `userProfile`   | `UserProfile`   | `user_profile`    | `user-profile`    | `USER_PROFILE`      | `user.profile`   | `user/profile`    | `User profile`     | `User-Profile`    |
+| `myAppName`     | `myAppName`     | `MyAppName`     | `my_app_name`     | `my-app-name`     | `MY_APP_NAME`       | `my.app.name`    | `my/app/name`     | `My app name`      | `My-App-Name`     |
 
 ---
 
@@ -106,10 +115,25 @@ Then use in `.stencil` templates:
 {{ "Person" | pluralize }}                → People
 {{ "Categories" | singularize }}          → Category
 
+{# Additional Case Conversions #}
+{{ "myAppName" | constantcase }}          → MY_APP_NAME
+{{ "myAppName" | dotcase }}               → my.app.name
+{{ "myAppName" | pathcase }}              → my/app/name
+{{ "myAppName" | sentencecase }}          → My app name
+{{ "myAppName" | headercase }}            → My-App-Name
+
 {# Utilities #}
 {% if "HTTP" | isAcronym %}
   const HTTP_CONSTANT = "HTTP";
 {% endif %}
+
+{# Array/String utilities #}
+{{ items | count }}                       → 3 (for ["a","b","c"])
+{{ items | isEmpty }}                     → false
+{{ items | first }}                       → "a"
+{{ items | last }}                        → "c"
+{{ items | join:", " }}                   → "a, b, c"
+{{ "a-b-c" | split:"-" | first }}         → "a"
 ```
 
 **Advanced Template Examples:**
@@ -178,6 +202,11 @@ All methods are available via `import MageStencilKit`:
 | `camelCased() -> String` | Convert to camelCase | `"UserProfile"` → `"userProfile"` |
 | `snakeCased() -> String` | Convert to snake_case | `"UserProfile"` → `"user_profile"` |
 | `kebabCased() -> String` | Convert to kebab-case | `"UserProfile"` → `"user-profile"` |
+| `constantCased() -> String` | Convert to CONSTANT_CASE | `"myAppName"` → `"MY_APP_NAME"` |
+| `dotCased() -> String` | Convert to dot.case | `"myAppName"` → `"my.app.name"` |
+| `pathCased() -> String` | Convert to path/case | `"myAppName"` → `"my/app/name"` |
+| `sentenceCased() -> String` | Convert to Sentence case | `"myAppName"` → `"My app name"` |
+| `headerCased() -> String` | Convert to Header-Case | `"myAppName"` → `"My-App-Name"` |
 | `pluralized() -> String` | Convert to plural | `"Category"` → `"Categories"` |
 | `singularized() -> String` | Convert to singular | `"Categories"` → `"Category"` |
 
@@ -190,6 +219,11 @@ All filters support multiple naming styles for convenience:
 - `pascalcase`, `pascalCase`, `PascalCase`
 - `snakecase`, `snakeCase`, `snake_case`
 - `kebabcase`, `kebabCase`, `kebab-case`
+- `constantcase`, `CONSTANT_CASE`
+- `dotcase`, `dotCase`
+- `pathcase`, `pathCase`
+- `sentencecase`, `sentenceCase`
+- `headercase`, `headerCase`
 
 **String Transformation:**
 - `uppercase`, `lowercase`
@@ -201,6 +235,11 @@ All filters support multiple naming styles for convenience:
 
 **Utilities:**
 - `isAcronym` (returns boolean)
+- `count` (returns length)
+- `isEmpty`, `isNotEmpty` (boolean checks)
+- `first`, `last` (array/string element access)
+- `join` (join array with separator)
+- `split` (split string into array)
 
 ---
 

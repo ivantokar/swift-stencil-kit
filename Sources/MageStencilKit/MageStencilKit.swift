@@ -38,8 +38,31 @@ public class MageStencilFilters {
             ext.registerFilter("pluralize", filter: { pluralize($0) })
             ext.registerFilter("singularize", filter: { singularize($0) })
 
+            // Additional case conversions
+            ext.registerFilter("constantcase", filter: { constantCase($0) })
+            ext.registerFilter("CONSTANT_CASE", filter: { constantCase($0) })
+
+            ext.registerFilter("dotcase", filter: { dotCase($0) })
+            ext.registerFilter("dotCase", filter: { dotCase($0) })
+
+            ext.registerFilter("pathcase", filter: { pathCase($0) })
+            ext.registerFilter("pathCase", filter: { pathCase($0) })
+
+            ext.registerFilter("sentencecase", filter: { sentenceCase($0) })
+            ext.registerFilter("sentenceCase", filter: { sentenceCase($0) })
+
+            ext.registerFilter("headercase", filter: { headerCase($0) })
+            ext.registerFilter("headerCase", filter: { headerCase($0) })
+
             // Utility filters
             ext.registerFilter("isAcronym", filter: { isAcronym($0) })
+            ext.registerFilter("count", filter: { count($0) })
+            ext.registerFilter("isEmpty", filter: { isEmpty($0) })
+            ext.registerFilter("isNotEmpty", filter: { isNotEmpty($0) })
+            ext.registerFilter("first", filter: { first($0) })
+            ext.registerFilter("last", filter: { last($0) })
+            ext.registerFilter("join", filter: joinFilter)
+            ext.registerFilter("split", filter: splitFilter)
         }
     }
 
@@ -103,6 +126,87 @@ public class MageStencilFilters {
         guard let string = value as? String else { return false }
         return string.uppercased() == string && string.count <= 6
     }
+
+    private static func constantCase(_ value: Any?) -> String {
+        guard let string = value as? String else { return "" }
+        return string.constantCased()
+    }
+
+    private static func dotCase(_ value: Any?) -> String {
+        guard let string = value as? String else { return "" }
+        return string.dotCased()
+    }
+
+    private static func pathCase(_ value: Any?) -> String {
+        guard let string = value as? String else { return "" }
+        return string.pathCased()
+    }
+
+    private static func sentenceCase(_ value: Any?) -> String {
+        guard let string = value as? String else { return "" }
+        return string.sentenceCased()
+    }
+
+    private static func headerCase(_ value: Any?) -> String {
+        guard let string = value as? String else { return "" }
+        return string.headerCased()
+    }
+
+    private static func count(_ value: Any?) -> Int {
+        if let array = value as? [Any] {
+            return array.count
+        }
+        if let string = value as? String {
+            return string.count
+        }
+        return 0
+    }
+
+    private static func isEmpty(_ value: Any?) -> Bool {
+        if let array = value as? [Any] {
+            return array.isEmpty
+        }
+        if let string = value as? String {
+            return string.isEmpty
+        }
+        return true
+    }
+
+    private static func isNotEmpty(_ value: Any?) -> Bool {
+        return !isEmpty(value)
+    }
+
+    private static func first(_ value: Any?) -> Any? {
+        if let array = value as? [Any] {
+            return array.first
+        }
+        if let string = value as? String {
+            return string.first.map { String($0) }
+        }
+        return nil
+    }
+
+    private static func last(_ value: Any?) -> Any? {
+        if let array = value as? [Any] {
+            return array.last
+        }
+        if let string = value as? String {
+            return string.last.map { String($0) }
+        }
+        return nil
+    }
+
+    private static func joinFilter(_ value: Any?, arguments: [Any?]) throws -> Any? {
+        guard let array = value as? [Any] else { return "" }
+        let separator = (arguments.first as? String) ?? ""
+        return array.map { "\($0)" }.joined(separator: separator)
+    }
+
+    private static func splitFilter(_ value: Any?, arguments: [Any?]) throws -> Any? {
+        guard let string = value as? String else { return [] }
+        let separator = (arguments.first as? String) ?? ""
+        return string.components(separatedBy: separator)
+    }
 }
 
 // MARK: - Public String Extensions
@@ -142,6 +246,33 @@ public extension String {
     /// Convert string to kebab-case
     func kebabCased() -> String {
         return tokenized().joined(separator: "-")
+    }
+
+    /// Convert string to CONSTANT_CASE (screaming snake case)
+    func constantCased() -> String {
+        return tokenized().joined(separator: "_").uppercased()
+    }
+
+    /// Convert string to dot.case
+    func dotCased() -> String {
+        return tokenized().joined(separator: ".")
+    }
+
+    /// Convert string to path/case
+    func pathCased() -> String {
+        return tokenized().joined(separator: "/")
+    }
+
+    /// Convert string to Sentence case (first word capitalized)
+    func sentenceCased() -> String {
+        let tokens = tokenized()
+        guard let first = tokens.first else { return "" }
+        return ([first.capitalized] + tokens.dropFirst()).joined(separator: " ")
+    }
+
+    /// Convert string to Header-Case (title case with hyphens)
+    func headerCased() -> String {
+        return tokenized().map { $0.capitalized }.joined(separator: "-")
     }
 
     /// Pluralize a noun (English rules)
