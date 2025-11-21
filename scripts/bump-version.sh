@@ -24,6 +24,6 @@ Updated version to $NEW_VERSION.
 
 Next steps:
   1. Run tests: swift test
-  2. Commit the changes and tag the release (e.g., git tag v$NEW_VERSION)
-  3. Push the tag: git push origin v$NEW_VERSION
+  2. Commit the changes and tag the release: git tag $NEW_VERSION
+  3. Push the tag to remote: git push origin $NEW_VERSION
 EOF
