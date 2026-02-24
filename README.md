@@ -1,11 +1,11 @@
-# MageStencilKit
+# SwiftStencilKit
 
-**MageStencilKit** is a lightweight Swift library that provides powerful string transformation functions as both **Stencil template filters** and **Swift String extensions**.
+**SwiftStencilKit** is a lightweight Swift library that provides powerful string transformation functions as both **Stencil template filters** and **Swift String extensions**.
 
 Perfect for code generators, CLI tools, and any project that needs consistent string transformations across templates and Swift code.
 
 ```swift
-import MageStencilKit
+import SwiftStencilKit
 
 // Use as Swift extensions
 "EmailToAdmin".camelCased()        // "emailToAdmin"
@@ -70,29 +70,29 @@ import MageStencilKit
 Add to your `Package.swift`:
 
 ```swift
-.package(url: "https://github.com/ivantokar/mage-stencil-kit.git", from: "1.0.0")
+.package(url: "https://github.com/ivantokar/swift-stencil-kit.git", from: "1.0.0")
 ```
 
 Then to your target dependencies:
 
 ```swift
-.product(name: "MageStencilKit", package: "mage-stencil-kit")
+.product(name: "SwiftStencilKit", package: "swift-stencil-kit")
 ```
 
 ---
 
 ## 🛠 Usage
 
-MageStencilKit provides **two ways** to use the transformation functions:
+SwiftStencilKit provides **two ways** to use the transformation functions:
 
 ### 1️⃣ As Stencil Template Filters
 
 ```swift
 import Stencil
-import MageStencilKit
+import SwiftStencilKit
 
 let env = Environment(loader: ...)
-MageStencilFilters.register(on: env)
+SwiftStencilFilters.register(on: env)
 ```
 
 Then use in `.stencil` templates:
@@ -160,7 +160,7 @@ const tableName = "{{ entityName | snakeCase | pluralize }}";
 All filters are also available as **public String extension methods** for use in Swift code:
 
 ```swift
-import MageStencilKit
+import SwiftStencilKit
 
 // Case conversion
 let className = "user_profile".pascalCased()        // "UserProfile"
@@ -185,15 +185,13 @@ let fileName = "\(className.kebabCased()).component.ts"  // "email-to-admin.comp
 - ✅ **Flexibility** - Use filters in templates OR methods in Swift code
 - ✅ **Zero Duplication** - Single source of truth for all transformations
 
-**Perfect for code generators** like [Mage CLI](https://github.com/ivantokar/mage) that need transformations in both contexts!
-
 ---
 
 ## 📚 API Reference
 
 ### Public String Extensions
 
-All methods are available via `import MageStencilKit`:
+All methods are available via `import SwiftStencilKit`:
 
 | Method | Description | Example |
 |--------|-------------|---------|
@@ -245,7 +243,7 @@ All filters support multiple naming styles for convenience:
 
 ## 🏗️ Architecture
 
-MageStencilKit uses a **smart tokenization algorithm** that correctly handles:
+SwiftStencilKit uses a **smart tokenization algorithm** that correctly handles:
 
 - **PascalCase**: `EmailToAdmin` → `["email", "to", "admin"]`
 - **camelCase**: `emailToAdmin` → `["email", "to", "admin"]`
@@ -296,7 +294,6 @@ Contributions welcome! Please feel free to submit a Pull Request.
 
 ## 🔗 Related Projects
 
-- **[Mage CLI](https://github.com/ivantokar/mage)** - DDD code generator for Node.js/TypeScript that uses MageStencilKit
 - **[Stencil](https://github.com/stencilproject/Stencil)** - The templating engine for Swift
 
 ---

@@ -12,7 +12,7 @@ swift build -c release  # Build release version
 
 ## Project Overview
 
-**MageStencilKit** is a Swift library that provides string transformation functions as both Stencil template filters and Swift String extensions. It's used by [Mage CLI](https://github.com/ivantokar/mage) for code generation.
+**SwiftStencilKit** is a Swift library that provides string transformation functions as both Stencil template filters and Swift String extensions.
 
 - **Language:** Swift 6.1
 - **Platform:** macOS 10.15+
@@ -20,9 +20,9 @@ swift build -c release  # Build release version
 
 ## Architecture
 
-Single-file library (`Sources/MageStencilKit/MageStencilKit.swift`) with two main components:
+Single-file library (`Sources/SwiftStencilKit/SwiftStencilKit.swift`) with two main components:
 
-1. **`MageStencilFilters` class** - Registers filters on a Stencil `Environment` via `register(on:)`. Each filter delegates to String extension methods.
+1. **`SwiftStencilFilters` class** - Registers filters on a Stencil `Environment` via `register(on:)`. Each filter delegates to String extension methods.
 
 2. **Public String extensions** - Core transformation logic:
    - `tokenized()` - Splits strings into word components using regex (handles PascalCase, camelCase, snake_case, kebab-case, acronyms)

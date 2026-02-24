@@ -1,11 +1,11 @@
-import MageStencilKit
+import SwiftStencilKit
 import Stencil
 import Testing
 
-@Suite struct MageStencilKitTests {
+@Suite struct SwiftStencilKitTests {
     func render(_ template: String, _ context: [String: Any]) throws -> String {
         let env = Environment(loader: nil)
-        MageStencilFilters.register(on: env)
+        SwiftStencilFilters.register(on: env)
         return try env.renderTemplate(string: template, context: context)
     }
 
