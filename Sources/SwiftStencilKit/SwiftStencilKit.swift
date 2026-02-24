@@ -1,10 +1,10 @@
-// MageStencilKit.swift
-// This module adds custom Stencil filters for Mage CLI
+// SwiftStencilKit.swift
+// This module adds custom Stencil filters for Swift projects
 
 import Foundation
 import Stencil
 
-public class MageStencilFilters {
+public class SwiftStencilFilters {
     public static func register(on environment: Environment) {
         for ext in environment.extensions {
             // Case conversion filters (with both lowercase and camelCase aliases)
@@ -210,7 +210,7 @@ public class MageStencilFilters {
 }
 
 // MARK: - Public String Extensions
-// These extensions are available for use by any Swift code importing MageStencilKit
+// These extensions are available for use by any Swift code importing SwiftStencilKit
 
 public extension String {
     /// Tokenize a string into word components
